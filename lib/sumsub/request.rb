@@ -8,13 +8,13 @@ module Sumsub
     end
 
     # https://developers.sumsub.com/api-reference/#creating-an-applicant
-    def create_applicant(lvl_name, body)
+    def create_applicant(lvl_name, applicant)
       resource = "applicants?levelName=#{lvl_name}"
-      headers = build_header(resource, body: body.to_json)
+      headers = build_header(resource, body: applicant.to_json)
 
       HTTP
         .headers(headers)
-        .post("#{URL}/#{resource}", json: body)
+        .post("#{URL}/#{resource}", json: applicant)
     end
 
     # https://developers.sumsub.com/api-reference/#adding-an-id-document
@@ -55,7 +55,86 @@ module Sumsub
         .post("#{URL}/#{resource}", body: body)
     end
 
+    # https://developers.sumsub.com/api-reference/#getting-applicant-status-api
+    def get_applicant_status(applicant_id)
+      resource = "applicants/#{applicant_id}/requiredIdDocsStatus"
+
+      headers = build_header(resource, method: 'GET')
+
+      HTTP
+        .headers(headers)
+        .get("#{URL}/#{resource}")
+    end
     
+    # https://developers.sumsub.com/api-reference/#getting-applicant-data
+    def get_applicant_data(applicant_id, external_user_id: false) 
+      resource = external_user_id ? 
+        "applicants/-;externalUserId=#{applicant_id}/one" : 
+        "applicants/#{applicant_id}/one"
+
+      headers = build_header(resource, method: 'GET')
+
+      HTTP
+        .headers(headers)
+        .get("#{URL}/#{resource}")
+    end
+
+    # https://developers.sumsub.com/api-reference/#getting-applicant-status-sdk
+    def get_applicant_status(applicant_id) 
+      resource = "applicants/#{applicant_id}/status"
+
+      headers = build_header(resource, method: 'GET')
+
+      HTTP
+        .headers(headers)
+        .get("#{URL}/#{resource}")
+    end
+
+    # https://developers.sumsub.com/api-reference/#requesting-an-applicant-check
+    def request_applicant_check(applicant_id, reason: nil)
+      resource = "applicants/#{applicant_id}/status/pending?reason=#{reason}"
+
+      headers = build_header(resource)
+
+      HTTP
+        .headers(headers)
+        .post("#{URL}/#{resource}")
+    end
+
+    # https://developers.sumsub.com/api-reference/#getting-document-images
+    def get_document_image(inspection_id, image_id)
+      resource = "inspections/#{inspection_id}/resources/#{image_id}"
+
+      headers = build_header(resource, method: 'GET')
+
+      HTTP
+        .headers(headers)
+        .get("#{URL}/#{resource}")
+    end
+
+    # https://developers.sumsub.com/api-reference/#resetting-an-applicant
+    def reset_applicant(applicant_id)
+      resource = "applicants/#{applicant_id}/reset"
+
+      headers = build_header(resource)
+
+      HTTP
+        .headers(headers)
+        .post("#{URL}/#{resource}")
+    end
+
+    # https://developers.sumsub.com/api-reference/#changing-top-level-info
+    # Sumsub::Struct::ApplicantUpdate can be used in order to inform applicant_new_values.
+    def change_applicant_top_level_info(applicant_new_values)
+      resource = "applicants/"
+
+      headers = build_header(resource, method: 'PATCH', body: applicant_new_values.to_json)
+
+      HTTP
+        .headers(headers)
+        .post("#{URL}/#{resource}", json: applicant_new_values)
+    end
+
     private
 
     # More infos about the required header and the signing strategy:
@@ -75,11 +154,10 @@ module Sumsub
     end
 
     def sign_message(time, resource, body, method='POST')
-      key = @secret_key
       data = time.to_s + method + '/resources/' + resource + body.to_s
       digest = OpenSSL::Digest.new('sha256')
 
-      OpenSSL::HMAC.hexdigest(digest, key, data)
+      OpenSSL::HMAC.hexdigest(digest, @secret_key, data)
     end
 
   end
