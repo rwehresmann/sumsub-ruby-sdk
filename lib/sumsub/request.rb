@@ -17,6 +17,45 @@ module Sumsub
         .post("#{URL}/#{resource}", json: body)
     end
 
+    # https://developers.sumsub.com/api-reference/#adding-an-id-document
+    # To understand how the body was build manually bellow: 
+    # https://roytuts.com/boundary-in-multipart-form-data/
+    def add_id_doc(applicant_id, metadata, file_name: nil)
+      resource = "applicants/#{applicant_id}/info/idDoc"
+
+      boundary = '----XYZ'
+
+      body = + '--' + boundary + "\r\n"
+      body += 'Content-Disposition: form-data; name="metadata"'
+      body += "\r\nContent-type: application/json; charset=utf-8\r\n\r\n"
+      body += metadata.to_json
+      body += "\r\n"
+      body += '--' + boundary
+
+      if file_name
+        content = File.read(file_name)
+
+        body += "\r\n" 
+        body += 'Content-Disposition: form-data; name="content"; filename="image.png"'
+        body += "\r\nContent-type: image/png; charset=utf-8\r\n\r\n"
+        body += content + "\r\n"
+        body += '--' + boundary + '--'
+      else
+        body += '--'
+      end
+
+      headers = build_header(
+        resource, 
+        body: body, 
+        content_type: 'multipart/form-data; boundary=' + boundary
+      ).merge({ "X-Return-Doc-Warnings": true })
+
+      HTTP
+        .headers(headers)
+        .post("#{URL}/#{resource}", body: body)
+    end
+
+    
     private
 
     # More infos about the required header and the signing strategy:
@@ -37,11 +76,12 @@ module Sumsub
 
     def sign_message(time, resource, body, method='POST')
       key = @secret_key
-      data = time.to_s + method + '/resources/' + resource + body
+      data = time.to_s + method + '/resources/' + resource + body.to_s
       digest = OpenSSL::Digest.new('sha256')
 
       OpenSSL::HMAC.hexdigest(digest, key, data)
     end
+
   end
 end
 
