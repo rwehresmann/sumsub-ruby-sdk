@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "lib/sumsub/ruby/sdk/version"
+require_relative "lib/sumsub/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "sumsub-ruby-sdk"
@@ -34,4 +34,7 @@ Gem::Specification.new do |spec|
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
+
+  spec.add_dependency "http", "~> 5.0.0"
+  spec.add_dependency "dry-struct", "~> 1.4.0"
 end
