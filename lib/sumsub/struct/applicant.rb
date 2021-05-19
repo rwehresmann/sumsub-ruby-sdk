@@ -4,7 +4,7 @@ module Sumsub
     class Applicant < BaseStruct
       include Types
 
-      attribute :externalUserId, Types::String
+      attribute :externalUserId, Types::Coercible::String
       attribute? :sourceKey, Types::String
       attribute? :email, Types::String
       attribute? :lang, Types::String
