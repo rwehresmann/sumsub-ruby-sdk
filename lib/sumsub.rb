@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'http'
+require 'types'
 
 module Sumsub  
   require 'sumsub/request'
