@@ -135,6 +135,17 @@ module Sumsub
         .post("#{URL}/#{resource}", json: applicant_new_values)
     end
 
+    # https://developers.sumsub.com/api-reference/#access-tokens-for-sdks
+    def get_access_token(user_id, ttl_in_seconds: nil, external_action_id: nil)
+      resource = "accessTokens?userId=#{user_id}&ttlInSecs=#{ttl_in_seconds}&external_action_id=#{external_action_id}"
+
+      headers = build_header(resource, method: 'POST')
+
+      HTTP
+        .headers(headers)
+        .post("#{URL}/#{resource}")
+    end
+
     private
 
     # More infos about the required header and the signing strategy:
