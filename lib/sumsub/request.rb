@@ -1,10 +1,16 @@
 module Sumsub
   class Request
-    URL = "https://api.sumsub.com/resources"
+    PRODUCTION_URL = "https://api.sumsub.com/resources"
+    TEST_URL = "https://test-api.sumsub.com/resources"
 
-    def initialize(token, secret_key)
+    def initialize(
+      token: Sumsub.configuration.token, 
+      secret_key: Sumsub.configuration.secret_key,
+      production: Sumsub.configuration.production
+    )
       @token = token
       @secret_key = secret_key
+      @url = production ? PRODUCTION_URL : TEST_URL
     end
 
     # https://developers.sumsub.com/api-reference/#creating-an-applicant
@@ -14,7 +20,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .post("#{URL}/#{resource}", json: applicant)
+        .post("#{@url}/#{resource}", json: applicant)
     end
 
     # https://developers.sumsub.com/api-reference/#adding-an-id-document
@@ -52,7 +58,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .post("#{URL}/#{resource}", body: body)
+        .post("#{@url}/#{resource}", body: body)
     end
 
     # https://developers.sumsub.com/api-reference/#getting-applicant-status-api
@@ -63,7 +69,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .get("#{URL}/#{resource}")
+        .get("#{@url}/#{resource}")
     end
     
     # https://developers.sumsub.com/api-reference/#getting-applicant-data
@@ -76,7 +82,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .get("#{URL}/#{resource}")
+        .get("#{@url}/#{resource}")
     end
 
     # https://developers.sumsub.com/api-reference/#getting-applicant-status-sdk
@@ -87,7 +93,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .get("#{URL}/#{resource}")
+        .get("#{@url}/#{resource}")
     end
 
     # https://developers.sumsub.com/api-reference/#requesting-an-applicant-check
@@ -98,7 +104,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .post("#{URL}/#{resource}")
+        .post("#{@url}/#{resource}")
     end
 
     # https://developers.sumsub.com/api-reference/#getting-document-images
@@ -109,7 +115,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .get("#{URL}/#{resource}")
+        .get("#{@url}/#{resource}")
     end
 
     # https://developers.sumsub.com/api-reference/#resetting-an-applicant
@@ -120,7 +126,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .post("#{URL}/#{resource}")
+        .post("#{@url}/#{resource}")
     end
 
     # https://developers.sumsub.com/api-reference/#changing-top-level-info
@@ -132,7 +138,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .post("#{URL}/#{resource}", json: applicant_new_values)
+        .post("#{@url}/#{resource}", json: applicant_new_values)
     end
 
     # https://developers.sumsub.com/api-reference/#access-tokens-for-sdks
@@ -143,7 +149,7 @@ module Sumsub
 
       HTTP
         .headers(headers)
-        .post("#{URL}/#{resource}")
+        .post("#{@url}/#{resource}")
     end
 
     private

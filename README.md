@@ -14,7 +14,17 @@ And then execute:
 
     $ bundle install
 
-## Usage
+## Configuration and Usage
+
+You can configure your credentials using `Sumsub::Configure` block. There are three keys you can inform: *token*, *secret_key* and *production*. The token and secret key you need to generate from your SumSub account, and *production* is a boolean value where you specify if you wanna use SumSub production or test environtment (in this case, just set production as *false*).
+
+```ruby
+Sumsub.configure do |config|
+  config.token = your_token
+  config.secret_key = your_secret_key
+  config.production = false # is true by default
+end
+```
 
 Use the `Sumsub::Request` to call the methods that access SumSub API endpoints. Check it out the [implemented methods](https://github.com/rwehresmann/sumsub-ruby-sdk/blob/master/lib/sumsub/request.rb) to know what is already available to be used.
 
@@ -31,7 +41,16 @@ An applicant is a user that will go into the KYC process.
 - Retrieve the current applicant's status.
 
 ```ruby
-request = Sumsub::Request.new(your_token, your_secret_key)
+request = Sumsub::Request.new
+
+# If you didn't set your configurations on Sumsub.configure block,
+# you have the option to inform it in the Request constructor like so:
+#
+# request = Sumsub::Request.new(
+#   token: your_token, 
+#   secret_key: your_secret_key,
+#   production: false
+# )
 
 applicant = Sumsub::Struct::Applicant.new(
   externalUserId: 'appt20', 
