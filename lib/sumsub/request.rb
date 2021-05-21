@@ -144,21 +144,36 @@ module Sumsub
       parse_response(response)
     end
 
+    # https://developers.sumsub.com/api-reference/#verifying-webhook-sender
+    def verify_webhook_sender(webhook_secret_key, payload)
+      resource = "inspectionCallbacks/testDigest?secretKey=#{webhook_secret_key}"
+      headers = build_header(
+        resource, 
+        method: 'POST', 
+        content_type: 'text/plain',
+        accept: 'text/plain',
+        body: payload.to_json
+      )
+      response = HTTP.headers(headers)
+                     .post("#{@url}/#{resource}", json: payload)
+
+      parse_response(response)
+    end
+
     private
 
     # More infos about the required header and the signing strategy:
     # https://developers.sumsub.com/api-reference/#app-tokens
-    def build_header(resource, body: nil, method: 'POST', content_type: 'application/json')
+    def build_header(resource, body: nil, method: 'POST', content_type: 'application/json', accept: 'application/json')
       epoch_time = Time.now.to_i
-
       access_signature = sign_message(epoch_time, resource, body, method)
 
       {
-        "X-App-Token": "#{@token.encode("UTF-8")}",
-        "X-App-Access-Sig": "#{access_signature.encode("UTF-8")}",
-        "X-App-Access-Ts": "#{epoch_time.to_s.encode("UTF-8")}",
-        "Accept": "application/json",
-        "Content-Type": "#{content_type}"
+        "X-App-Token": @token.encode("UTF-8"),
+        "X-App-Access-Sig": access_signature.encode("UTF-8"),
+        "X-App-Access-Ts": epoch_time.to_s.encode("UTF-8"),
+        "Accept": accept,
+        "Content-Type": content_type
       }
     end
 
