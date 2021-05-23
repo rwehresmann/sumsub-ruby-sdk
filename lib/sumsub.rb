@@ -11,6 +11,7 @@ module Sumsub
   require 'sumsub/struct/info'
   require 'sumsub/struct/applicant'
   require 'sumsub/struct/document_metadata'
+  require 'sumsub/version'
 
   class << self
     attr_accessor :configuration

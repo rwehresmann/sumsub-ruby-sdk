@@ -4,7 +4,7 @@ require_relative "lib/sumsub/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "sumsub-ruby-sdk"
-  spec.version       = Sumsub::Ruby::Sdk::VERSION
+  spec.version       = Sumsub::VERSION
   spec.authors       = ["Rodrigo W. Ehresmann"]
   spec.email         = ["igoehresmann@gmail.com"]
 
