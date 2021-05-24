@@ -4,6 +4,7 @@ require 'http'
 require 'types'
 
 module Sumsub  
+  require 'sumsub/message_signer'
   require 'sumsub/configuration'
   require 'sumsub/request'
   require 'sumsub/struct/base_struct'

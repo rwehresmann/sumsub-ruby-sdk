@@ -164,9 +164,20 @@ module Sumsub
 
     # More infos about the required header and the signing strategy:
     # https://developers.sumsub.com/api-reference/#app-tokens
-    def build_header(resource, body: nil, method: 'POST', content_type: 'application/json', accept: 'application/json')
+    def build_header(
+      resource, 
+      body: nil, 
+      method: 'POST', 
+      content_type: 'application/json', 
+      accept: 'application/json'
+    )
       epoch_time = Time.now.to_i
-      access_signature = sign_message(epoch_time, resource, body, method)
+      access_signature = Sumsub::MessageSigner.sign(
+        time: epoch_time, 
+        resource: resource, 
+        body: body, 
+        method: method,
+      )
 
       {
         "X-App-Token": @token.encode("UTF-8"),
@@ -175,13 +186,6 @@ module Sumsub
         "Accept": accept,
         "Content-Type": content_type
       }
-    end
-
-    def sign_message(time, resource, body, method='POST')
-      data = time.to_s + method + '/resources/' + resource + body.to_s
-      digest = OpenSSL::Digest.new('sha256')
-
-      OpenSSL::HMAC.hexdigest(digest, @secret_key, data)
     end
 
     def parse_response(response)
