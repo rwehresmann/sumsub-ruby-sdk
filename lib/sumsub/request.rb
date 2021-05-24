@@ -189,7 +189,7 @@ module Sumsub
     end
 
     def parse_response(response)
-      JSON.parse(response.to_s)
+      Sumsub::Parser.parse(response.to_s)
     end
   end
 end
