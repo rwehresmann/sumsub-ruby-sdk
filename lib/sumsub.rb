@@ -31,4 +31,8 @@ module Sumsub
   def self.configure
     yield(configuration)
   end
+
+  def self.error_response?(response)
+    response.class == Sumsub::Struct::ErrorResponse
+  end
 end
