@@ -62,7 +62,7 @@ module Sumsub
     end
 
     # https://developers.sumsub.com/api-reference/#getting-applicant-status-api
-    def get_applicant_status(applicant_id)
+    def get_applicant_detailed_status(applicant_id)
       resource = "applicants/#{applicant_id}/requiredIdDocsStatus"
       headers = build_header(resource, method: 'GET')
       response = HTTP.headers(headers)
