@@ -4,13 +4,20 @@ PATH
     sumsub-ruby-sdk (0.1.0)
       dry-struct (~> 1.4.0)
       http (~> 5.0.0)
+      pry (~> 0.14.1)
+      rspec (~> 3.10.0)
+      timecop (~> 0.9.4)
+      webmock (~> 3.13.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    coderay (1.1.3)
     concurrent-ruby (1.1.8)
+    crack (0.4.5)
+      rexml
     diff-lcs (1.4.4)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -40,6 +47,7 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    hashdiff (1.0.1)
     http (5.0.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -52,8 +60,13 @@ GEM
     llhttp-ffi (0.0.1)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
+    method_source (1.0.0)
+    pry (0.14.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     public_suffix (4.0.6)
     rake (13.0.3)
+    rexml (3.2.5)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -67,9 +80,14 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
+    timecop (0.9.4)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
+    webmock (3.13.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
   x86_64-linux

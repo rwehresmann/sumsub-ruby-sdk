@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
-require "sumsub"
+require 'sumsub'
+require 'pry'
+require 'webmock'
+require 'timecop'
 
 RSpec.configure do |config|
+  include WebMock::API
+
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 
@@ -12,4 +17,6 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  WebMock.enable!
 end
