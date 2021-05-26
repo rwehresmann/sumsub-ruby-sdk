@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["igoehresmann@gmail.com"]
 
   spec.summary       = "SumSub Ruby SDK"
-  spec.description   = "SDK written in Ruby to handle with SumSub API."
+  spec.description   = "SDK written in Ruby to handle SumSub API."
   spec.homepage      = "https://github.com/rwehresmann/sumsub-ruby-sdk"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")

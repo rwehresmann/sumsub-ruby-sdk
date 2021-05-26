@@ -7,7 +7,7 @@ This gem is an unnoficial SDK for the [SumSub API](https://developers.sumsub.com
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'sumsub-ruby-sdk', git: 'https://github.com/rwehresmann/sumsub-ruby-sdk', require: 'sumsub'
+gem 'sumsub-ruby-sdk', '~> 0.1.1', require: 'sumsub'
 ```
 
 And then execute:
