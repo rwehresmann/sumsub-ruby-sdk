@@ -13,6 +13,7 @@ module Sumsub
   require 'sumsub/struct/address'
   require 'sumsub/struct/info'
   require 'sumsub/struct/applicant'
+  require 'sumsub/struct/applicant_update'
   require 'sumsub/struct/document_metadata'
   require 'sumsub/version'
 

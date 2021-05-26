@@ -72,8 +72,8 @@ module Sumsub
     end
     
     # https://developers.sumsub.com/api-reference/#getting-applicant-data
-    def get_applicant_data(applicant_id, external_user_id: false) 
-      resource = external_user_id ? 
+    def get_applicant_data(applicant_id, as_external_user_id: false) 
+      resource = as_external_user_id ? 
         "applicants/-;externalUserId=#{applicant_id}/one" : 
         "applicants/#{applicant_id}/one"
       headers = build_header(resource, method: 'GET')
@@ -129,7 +129,7 @@ module Sumsub
       resource = "applicants/"
       headers = build_header(resource, method: 'PATCH', body: applicant_new_values.to_json)
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}", json: applicant_new_values)
+                     .patch("#{@url}/#{resource}", json: applicant_new_values)
 
       parse_response(response)
     end
@@ -152,10 +152,11 @@ module Sumsub
         method: 'POST', 
         content_type: 'text/plain',
         accept: 'text/plain',
-        body: payload.to_json
+        body: payload
       )
+
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}", json: payload)
+                     .post("#{@url}/#{resource}", body: payload)
 
       parse_response(response)
     end

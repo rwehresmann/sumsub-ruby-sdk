@@ -1,10 +1,11 @@
 module Sumsub
+  # https://developers.sumsub.com/api-reference/#signing-a-request
   class MessageSigner
     def self.sign(
       time:, 
       resource:, 
-      body:, 
       method:, 
+      body: nil, 
       secret_key: Sumsub.configuration.secret_key
     )
       data = time.to_s + method + '/resources/' + resource + body.to_s

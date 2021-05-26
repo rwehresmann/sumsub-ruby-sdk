@@ -37,4 +37,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "http", "~> 5.0.0"
   spec.add_dependency "dry-struct", "~> 1.4.0"
+  spec.add_dependency "rspec", "~> 3.10.0"
+  spec.add_dependency "pry", "~> 0.14.1"
+  spec.add_dependency "webmock", "~> 3.13.0"
+  spec.add_dependency "timecop", "~> 0.9.4"
 end
