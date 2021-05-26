@@ -41,4 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "pry", "~> 0.14.1"
   spec.add_dependency "webmock", "~> 3.13.0"
   spec.add_dependency "timecop", "~> 0.9.4"
+  spec.add_dependency "mime-types", "~> 3.3.1"
 end

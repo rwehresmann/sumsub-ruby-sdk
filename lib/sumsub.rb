@@ -2,6 +2,7 @@
 
 require 'http'
 require 'types'
+require 'mime/types'
 
 module Sumsub  
   require 'sumsub/message_signer'

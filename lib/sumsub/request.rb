@@ -3,6 +3,8 @@ module Sumsub
     PRODUCTION_URL = "https://api.sumsub.com/resources"
     TEST_URL = "https://test-api.sumsub.com/resources"
 
+    attr_reader :url, :secret_key, :token
+
     def initialize(
       token: Sumsub.configuration.token, 
       secret_key: Sumsub.configuration.secret_key,
@@ -26,7 +28,7 @@ module Sumsub
     # https://developers.sumsub.com/api-reference/#adding-an-id-document
     # To understand how the body was build manually bellow: 
     # https://roytuts.com/boundary-in-multipart-form-data/
-    def add_id_doc(applicant_id, metadata, file_name: nil)
+    def add_id_doc(applicant_id, metadata, file_path: nil)
       resource = "applicants/#{applicant_id}/info/idDoc"
 
       boundary = '----XYZ'
@@ -38,12 +40,14 @@ module Sumsub
       body += "\r\n"
       body += '--' + boundary
 
-      if file_name
-        content = File.read(file_name)
+      if file_path
+        content = File.read(file_path)
+        file_name = File.basename(file_path)
+        content_type = MIME::Types.type_for(file_name).first.content_type
 
         body += "\r\n" 
-        body += 'Content-Disposition: form-data; name="content"; filename="image.png"'
-        body += "\r\nContent-type: image/png; charset=utf-8\r\n\r\n"
+        body += 'Content-Disposition: form-data; name="content"; filename="' + file_name + '"'
+        body += "\r\nContent-type: #{content_type}; charset=utf-8\r\n\r\n"
         body += content + "\r\n"
         body += '--' + boundary + '--'
       else

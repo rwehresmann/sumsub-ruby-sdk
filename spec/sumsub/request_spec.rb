@@ -10,6 +10,28 @@ RSpec.describe Sumsub::Request do
     end
   end
 
+  describe ".initialize" do
+    it "gets the Sumsub configuration token by default" do
+      expect(described_class.new.token).to eq('token')
+    end
+
+    it "gets the Sumsub configuration secret key by default" do
+      expect(described_class.new.secret_key).to eq('secret_key')
+    end
+
+    context "when production == false" do
+      it "uses the api test url" do
+        expect(described_class.new(production: false).url).to eq(described_class::TEST_URL)
+      end
+    end
+
+    context "when production == true (default)" do
+      it "uses the api production url" do
+        expect(described_class.new.url).to eq(described_class::PRODUCTION_URL)
+      end
+    end
+  end
+
   describe "#create_applicant" do
     let(:lvl_name) { 'basic-kyc' }
     let(:applicant) do
@@ -38,6 +60,91 @@ RSpec.describe Sumsub::Request do
       )
 
       described_class.new.create_applicant(lvl_name, applicant)
+    end
+  end
+
+  describe "#add_id_doc" do
+    let(:applicant_id) { '123' }
+    let(:metadata) do
+      Sumsub::Struct::DocumentMetadata.new(
+        idDocType: 'ID_CARD',
+        country: 'BRA'
+      )
+    end
+
+    context "when file_path is informed" do
+      let(:file) { Tempfile.new(['selfie', '.png']) }
+
+      before do
+        file.write("some content")
+        file.rewind
+      end
+
+      it "calls the right resource with the right headers and body" do
+        resource = "applicants/#{applicant_id}/info/idDoc"
+        boundary = '----XYZ'
+        file_name = File.basename(file.path)
+
+
+        body = '--' + boundary + "\r\n"
+        body += 'Content-Disposition: form-data; name="metadata"'
+        body += "\r\nContent-type: application/json; charset=utf-8\r\n\r\n"
+        body += metadata.to_json
+        body += "\r\n"
+        body += '--' + boundary + "\r\n"
+        body += 'Content-Disposition: form-data; name="content"; filename="' + file_name + '"'
+        body += "\r\nContent-type: image/png; charset=utf-8\r\n\r\n"
+        body += file.read + "\r\n"
+        body += '--' + boundary + '--'
+
+        headers = build_headers(
+          resource,
+          method: 'POST',
+          content_type: 'multipart/form-data; boundary=' + boundary,
+          accept: 'application/json',
+          body: body
+        ).merge({ "X-Return-Doc-Warnings": true })
+  
+        set_http_client_expects(
+          headers,
+          :post,
+          "#{Sumsub::Request::PRODUCTION_URL}/#{resource}",
+          args: { body: body }
+        )
+
+        described_class.new.add_id_doc(applicant_id, metadata, file_path: file.path)
+      end
+    end
+
+    context "when file_path isn't informed" do
+      it "calls the right resource with the right headers and body" do
+        resource = "applicants/#{applicant_id}/info/idDoc"
+        boundary = '----XYZ'
+
+        body = '--' + boundary + "\r\n"
+        body += 'Content-Disposition: form-data; name="metadata"'
+        body += "\r\nContent-type: application/json; charset=utf-8\r\n\r\n"
+        body += metadata.to_json
+        body += "\r\n"
+        body += '--' + boundary + '--'
+
+        headers = build_headers(
+          resource,
+          method: 'POST',
+          content_type: 'multipart/form-data; boundary=' + boundary,
+          accept: 'application/json',
+          body: body
+        ).merge({ "X-Return-Doc-Warnings": true })
+  
+        set_http_client_expects(
+          headers,
+          :post,
+          "#{Sumsub::Request::PRODUCTION_URL}/#{resource}",
+          args: { body: body }
+        )
+
+        described_class.new.add_id_doc(applicant_id, metadata)
+      end
     end
   end
 
