@@ -7,7 +7,7 @@ This gem is an unnoficial SDK for the [SumSub API](https://developers.sumsub.com
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'sumsub-ruby-sdk', git: 'https://github.com/rwehresmann/sumsub-ruby-sdk'
+gem 'sumsub-ruby-sdk', git: 'https://github.com/rwehresmann/sumsub-ruby-sdk', require: 'sumsub'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 ## Configuration and Usage
 
-You can configure your credentials using `Sumsub::Configure` block. There are three keys you can inform: *token*, *secret_key* and *production*. The token and secret key you need to generate from your SumSub account, and *production* is a boolean value where you specify if you wanna use SumSub production or test environtment (in this case, just set production as *false*).
+You can configure your credentials using `Sumsub::Configure` block. There are three keys you can inform: *token*, *secret_key* and *production*. The token and secret key you need to generate from your SumSub account, and *production* is a boolean value where you specify if you wanna use SumSub production or test environtment. To use the test environment, just set production as `false`.
 
 ```ruby
 Sumsub.configure do |config|
@@ -30,11 +30,11 @@ Use the `Sumsub::Request` to call the methods that access SumSub API endpoints. 
 
 For requests where you need to inform full objects in the request's body, `Sumsub::Struct` have some models you can use to easily fill the necessary data for the request. Check it out the models available [here](https://github.com/rwehresmann/sumsub-ruby-sdk/tree/master/lib/sumsub/struct). 
 
-**Note:** To use `Sumsub::Struct` or not is up to you. A simple [ruby hash](https://ruby-doc.org/core-3.0.1/Hash.html) is a viable option too. Under the hood we call `to_json` to serialize it.
+**Note:** To use `Sumsub::Struct` or not is up to you. A simple [ruby hash](https://ruby-doc.org/core-3.0.1/Hash.html) is a viable option too. Under the hood we call `to_json` to serialize it, so just ensure that this method is available and does what we expect of him: transform your object in a json string.
 
 Usage example:
 
-An applicant is a user that will go into the KYC process. 
+An applicant is an user that will go into the KYC process. 
 
 - Create the applicant;
 - Add an ID document to it;
@@ -44,7 +44,7 @@ An applicant is a user that will go into the KYC process.
 request = Sumsub::Request.new
 
 # If you didn't set your configurations on Sumsub.configure block,
-# you have the option to inform it in the Request constructor like so:
+# you have the option to inform it in the Request constructor, like this:
 #
 # request = Sumsub::Request.new(
 #   token: your_token, 
@@ -59,7 +59,7 @@ applicant = Sumsub::Struct::Applicant.new(
 
 response = request.create_applicant('basic-kyc-level', applicant)
 
-applicant_id = JSON.parse(response.to_s)['id']
+applicant_id = response['id']
 
 metadata = Sumsub::Struct::DocumentMetadata.new(
   idDocType: 'ID_CARD',
@@ -69,15 +69,19 @@ metadata = Sumsub::Struct::DocumentMetadata.new(
 request.add_id_doc(
   applicant_id, 
   metadata,
-  file_name: 'home/myself/Pictures/id_card.png'
+  file_path: 'home/myself/Pictures/id_card.png'
 )
 
 request.get_applicant_status(applicant_id)
 ```
 
+The return from `Sumsub::Request` method will always be a ruby hash (in case of success) or an instance of `Sumsub::Struct::ErrorResponse` (in case error).
+
 ## Development
 
 Run `bin/setup` to install dependencies. For an interactive prompt that will allow you to experiment, run `bin/console`.
+
+Run `bundle exec rspec`, if none error appears you're ready to go.
 
 ## License
 
