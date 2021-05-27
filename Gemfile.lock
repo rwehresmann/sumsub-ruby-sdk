@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sumsub-ruby-sdk (0.1.1)
+    sumsub-ruby-sdk (0.1.2)
       dry-struct (~> 1.4.0)
       http (~> 5.0.0)
       mime-types (~> 3.3.1)
