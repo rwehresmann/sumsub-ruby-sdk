@@ -1,7 +1,7 @@
 module Sumsub
   class Request
-    PRODUCTION_URL = "https://api.sumsub.com/resources"
-    TEST_URL = "https://test-api.sumsub.com/resources"
+    PRODUCTION_URL = "https://api.sumsub.com"
+    TEST_URL = "https://test-api.sumsub.com"
 
     attr_reader :url, :secret_key, :token
 
@@ -21,7 +21,7 @@ module Sumsub
       resource = "applicants?levelName=#{lvl_name}"
       headers = build_header(resource, body: applicant.to_json)
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}", json: applicant)
+                     .post("#{@url}/resources/#{resource}", json: applicant)
       
       parse_response(response)
     end
@@ -61,7 +61,7 @@ module Sumsub
         content_type: 'multipart/form-data; boundary=' + boundary
       ).merge({ "X-Return-Doc-Warnings": true })
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}", body: body)
+                     .post("#{@url}/resources/#{resource}", body: body)
     
       parse_response(response)
     end
@@ -71,7 +71,7 @@ module Sumsub
       resource = "applicants/#{applicant_id}/requiredIdDocsStatus"
       headers = build_header(resource, method: 'GET')
       response = HTTP.headers(headers)
-                     .get("#{@url}/#{resource}")
+                     .get("#{@url}/resources/#{resource}")
 
       parse_response(response)
     end
@@ -83,7 +83,7 @@ module Sumsub
         "applicants/#{applicant_id}/one"
       headers = build_header(resource, method: 'GET')
       response = HTTP.headers(headers)
-                     .get("#{@url}/#{resource}")
+                     .get("#{@url}/resources/#{resource}")
 
       parse_response(response)
     end
@@ -93,7 +93,7 @@ module Sumsub
       resource = "applicants/#{applicant_id}/status"
       headers = build_header(resource, method: 'GET')
       response = HTTP.headers(headers)
-                     .get("#{@url}/#{resource}")
+                     .get("#{@url}/resources/#{resource}")
       
       parse_response(response)
     end
@@ -103,7 +103,7 @@ module Sumsub
       resource = "applicants/#{applicant_id}/status/pending?reason=#{reason}"
       headers = build_header(resource)
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}")
+                     .post("#{@url}/resources/#{resource}")
       
       parse_response(response)
     end
@@ -113,7 +113,7 @@ module Sumsub
       resource = "inspections/#{inspection_id}/resources/#{image_id}"
       headers = build_header(resource, method: 'GET')
       response = HTTP.headers(headers)
-                     .get("#{@url}/#{resource}")
+                     .get("#{@url}/resources/#{resource}")
 
       parse_response(response)
     end
@@ -123,7 +123,7 @@ module Sumsub
       resource = "applicants/#{applicant_id}/reset"
       headers = build_header(resource)
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}")
+                     .post("#{@url}/resources/#{resource}")
 
       parse_response(response)
     end
@@ -134,7 +134,7 @@ module Sumsub
       resource = "applicants/"
       headers = build_header(resource, method: 'PATCH', body: applicant_new_values.to_json)
       response = HTTP.headers(headers)
-                     .patch("#{@url}/#{resource}", json: applicant_new_values)
+                     .patch("#{@url}/resources/#{resource}", json: applicant_new_values)
 
       parse_response(response)
     end
@@ -144,7 +144,7 @@ module Sumsub
       resource = "accessTokens?userId=#{user_id}&ttlInSecs=#{ttl_in_seconds}&external_action_id=#{external_action_id}"
       headers = build_header(resource, method: 'POST')
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}")
+                     .post("#{@url}/resources/#{resource}")
 
       parse_response(response)
     end
@@ -162,7 +162,7 @@ module Sumsub
       )
 
       response = HTTP.headers(headers)
-                     .post("#{@url}/#{resource}", body: payload)
+                     .post("#{@url}/resources/#{resource}", body: payload)
 
       parse_response(response)
     end
