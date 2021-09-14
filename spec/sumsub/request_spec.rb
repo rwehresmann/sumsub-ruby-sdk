@@ -363,11 +363,11 @@ RSpec.describe Sumsub::Request do
   describe "#get_access_token" do
     let(:user_id) { '123' }
 
-    context "when ttl_in_seconds is informed" do
-      let(:ttl_in_seconds) { 2000 }
+    context "when level_name is informed" do
+      let(:level_name) { 'kyc-full' }
 
       it "calls the right resource with the right headers and body" do
-        resource = "accessTokens?userId=#{user_id}&ttlInSecs=#{ttl_in_seconds}&external_action_id="
+        resource = "accessTokens?userId=#{user_id}&levelName=#{level_name}&ttlInSecs=&external_action_id="
   
         headers = build_headers(
           resource,
@@ -382,7 +382,30 @@ RSpec.describe Sumsub::Request do
           "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
         )
   
-        described_class.new.get_access_token(user_id, ttl_in_seconds: ttl_in_seconds)
+        described_class.new.get_access_token(user_id, level_name)
+      end
+    end
+
+    context "when ttl_in_seconds is informed" do
+      let(:ttl_in_seconds) { 2000 }
+
+      it "calls the right resource with the right headers and body" do
+        resource = "accessTokens?userId=#{user_id}&levelName=&ttlInSecs=#{ttl_in_seconds}&external_action_id="
+  
+        headers = build_headers(
+          resource,
+          method: 'POST',
+          content_type: 'application/json',
+          accept: 'application/json',
+        )
+  
+        set_http_client_expects(
+          headers,
+          :post,
+          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        )
+  
+        described_class.new.get_access_token(user_id, nil, ttl_in_seconds: ttl_in_seconds)
       end
     end
 
@@ -390,7 +413,7 @@ RSpec.describe Sumsub::Request do
       let(:external_action_id) { 9999 }
 
       it "calls the right resource with the right headers and body" do
-        resource = "accessTokens?userId=#{user_id}&ttlInSecs=&external_action_id=#{external_action_id}"
+        resource = "accessTokens?userId=#{user_id}&levelName=&ttlInSecs=&external_action_id=#{external_action_id}"
   
         headers = build_headers(
           resource,
@@ -405,13 +428,13 @@ RSpec.describe Sumsub::Request do
           "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
         )
   
-        described_class.new.get_access_token(user_id, external_action_id: external_action_id)
+        described_class.new.get_access_token(user_id, nil, external_action_id: external_action_id)
       end
     end
 
     context "when none optional arg is informed" do
       it "calls the right resource with the right headers and body" do
-        resource = "accessTokens?userId=#{user_id}&ttlInSecs=&external_action_id="
+        resource = "accessTokens?userId=#{user_id}&levelName=&ttlInSecs=&external_action_id="
   
         headers = build_headers(
           resource,
@@ -426,7 +449,7 @@ RSpec.describe Sumsub::Request do
           "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
         )
   
-        described_class.new.get_access_token(user_id)
+        described_class.new.get_access_token(user_id, nil)
       end
     end
   end

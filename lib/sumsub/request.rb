@@ -140,8 +140,8 @@ module Sumsub
     end
 
     # API docs: https://developers.sumsub.com/api-reference/#access-tokens-for-sdks
-    def get_access_token(user_id, ttl_in_seconds: nil, external_action_id: nil)
-      resource = "accessTokens?userId=#{user_id}&ttlInSecs=#{ttl_in_seconds}&external_action_id=#{external_action_id}"
+    def get_access_token(user_id, levelName, ttl_in_seconds: nil, external_action_id: nil)
+      resource = "accessTokens?userId=#{user_id}&levelName=#{levelName}&ttlInSecs=#{ttl_in_seconds}&external_action_id=#{external_action_id}"
       headers = build_header(resource, method: 'POST')
       response = HTTP.headers(headers)
                      .post("#{@url}/resources/#{resource}")
