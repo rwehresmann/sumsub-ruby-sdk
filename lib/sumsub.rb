@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'http'
-require 'types'
 require 'mime/types'
+require 'dry-struct'
 
-module Sumsub  
+module Sumsub
+  require 'sumsub/types'
   require 'sumsub/message_signer'
   require 'sumsub/configuration'
   require 'sumsub/parser'

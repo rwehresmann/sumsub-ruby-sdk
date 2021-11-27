@@ -2,8 +2,6 @@ module Sumsub
   module Struct
     # https://developers.sumsub.com/api-reference/#fixedinfo-and-info-attributes
     class Info < BaseStruct
-      include Types
-
       attribute? :firstName, Types::String
       attribute? :lastName, Types::String
       attribute? :middleName, Types::String
