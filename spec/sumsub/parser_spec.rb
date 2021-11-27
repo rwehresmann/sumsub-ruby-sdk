@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 RSpec.describe Sumsub::Parser do
   describe ".parse" do
     context "when is an error structure" do
