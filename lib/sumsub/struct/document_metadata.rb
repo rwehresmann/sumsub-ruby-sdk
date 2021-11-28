@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sumsub
   module Struct
     # https://developers.sumsub.com/api-reference/#request-metadata-body-part-fields

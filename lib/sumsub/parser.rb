@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sumsub
   class Parser
     def self.parse(json_payload)

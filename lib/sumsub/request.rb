@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sumsub
   class Request
     PRODUCTION_URL = "https://api.sumsub.com"
