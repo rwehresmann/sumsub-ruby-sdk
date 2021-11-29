@@ -18,7 +18,6 @@ module Sumsub
       attribute? :stateOfBirth, Types::String
       attribute? :country, Types::String
       attribute? :nationality, Types::String
-      attribute? :phone, Types::String     
       attribute? :addresses, Types::Array.of(Sumsub::Struct::Address)
     end
   end

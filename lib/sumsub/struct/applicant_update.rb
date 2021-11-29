@@ -7,11 +7,14 @@ module Sumsub
       attribute :id, Types::String
 
       attribute? :externalUserId, Types::String
-      attribute? :sourceKey, Types::String
       attribute? :email, Types::String
-      attribute? :lang, Types::String
-      attribute? :metadata, Types::Array.of(Types::Hash)
+      attribute? :phone, Types::String
+      attribute? :sourceKey, Types::String
       attribute? :type, Types::String
+      attribute? :lang, Types::String
+      attribute? :questionnaires, Types::Array.of(Types::Hash)
+      attribute? :metadata, Types::Array.of(Types::Hash)
+      attribute? :deleted, Types::Bool
     end
   end
 end

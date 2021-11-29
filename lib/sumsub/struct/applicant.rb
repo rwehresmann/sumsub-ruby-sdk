@@ -8,6 +8,7 @@ module Sumsub
 
       attribute? :sourceKey, Types::String
       attribute? :email, Types::String
+      attribute? :phone, Types::String
       attribute? :lang, Types::String
       attribute? :metadata, Types::Array.of(Types::Hash)
       attribute? :info, Types::Instance(Sumsub::Struct::Info)
