@@ -33,7 +33,7 @@ RSpec.describe Sumsub::Request do
   end
 
   describe "#create_applicant" do
-    let(:lvl_name) { 'basic-kyc' }
+    let(:level_name) { 'basic-kyc' }
     let(:applicant) do
       Sumsub::Struct::Applicant.new(
         externalUserId: 'appt23', 
@@ -42,7 +42,7 @@ RSpec.describe Sumsub::Request do
     end
 
     it "calls the right resource with the right headers and body" do
-      resource = "applicants?levelName=#{lvl_name}"
+      resource = "applicants?levelName=#{level_name}"
 
       headers = build_headers(
         resource,
@@ -59,7 +59,7 @@ RSpec.describe Sumsub::Request do
         args: { json: applicant }
       )
 
-      described_class.new.create_applicant(lvl_name, applicant)
+      described_class.new.create_applicant(level_name, applicant)
     end
   end
 
@@ -477,6 +477,40 @@ RSpec.describe Sumsub::Request do
       )
 
       described_class.new.verify_webhook_sender(webhook_secret_key, payload)
+    end
+  end
+
+  describe "#generating_external_link" do
+    let(:level_name) { 'basic-kyc-level' }
+    let(:ttl_in_seconds) { 1800 }
+    let(:external_user_id) { 'appt23' }
+    let(:locale) { 'en' }
+    let(:applicant) do
+      Sumsub::Struct::Applicant.new(
+        externalUserId: external_user_id,
+        email: 'grivia@mail.com'
+      )
+    end
+
+    it "calls the right resource with the right headers and body" do
+      resource = "sdkIntegrations/levels/#{level_name}/websdkLink?ttlInSecs=#{ttl_in_seconds}&externalUserId=#{external_user_id}&lang=#{locale}"
+
+      headers = build_headers(
+        resource,
+        method: 'POST',
+        content_type: 'application/json',
+        accept: 'application/json',
+        body: applicant.to_json
+      )
+
+      set_http_client_expects(
+        headers,
+        :post,
+        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        args: { json: applicant }
+      )
+
+      described_class.new.generating_external_link(level_name, ttl_in_seconds, external_user_id, locale: locale, body: applicant)
     end
   end
 

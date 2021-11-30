@@ -17,8 +17,8 @@ module Sumsub
 
     # API docs: https://developers.sumsub.com/api-reference/#creating-an-applicant
     # Sumsub::Struct::Applicant can be used as applicant.
-    def create_applicant(lvl_name, applicant)
-      resource = "applicants?levelName=#{lvl_name}"
+    def create_applicant(level_name, applicant)
+      resource = "applicants?levelName=#{level_name}"
       headers = build_header(resource, body: applicant.to_json)
       response = HTTP.headers(headers)
                      .post("#{@url}/resources/#{resource}", json: applicant)
@@ -140,8 +140,8 @@ module Sumsub
     end
 
     # API docs: https://developers.sumsub.com/api-reference/#access-tokens-for-sdks
-    def get_access_token(user_id, levelName, ttl_in_seconds: nil, external_action_id: nil)
-      resource = "accessTokens?userId=#{user_id}&levelName=#{levelName}&ttlInSecs=#{ttl_in_seconds}&external_action_id=#{external_action_id}"
+    def get_access_token(user_id, level_name, ttl_in_seconds: nil, external_action_id: nil)
+      resource = "accessTokens?userId=#{user_id}&levelName=#{level_name}&ttlInSecs=#{ttl_in_seconds}&external_action_id=#{external_action_id}"
       headers = build_header(resource, method: 'POST')
       response = HTTP.headers(headers)
                      .post("#{@url}/resources/#{resource}")
@@ -163,6 +163,18 @@ module Sumsub
 
       response = HTTP.headers(headers)
                      .post("#{@url}/resources/#{resource}", body: payload)
+
+      parse_response(response)
+    end
+
+    # API docs: https://developers.sumsub.com/api-reference/additional-methods.html#generating-websdk-external-link-for-particular-user
+    # Sumsub::Struct::Applicant can be used as body.
+    def generating_external_link(level_name, ttl_in_seconds, external_user_id, locale: nil, body: nil)
+      resource = "sdkIntegrations/levels/#{level_name}/websdkLink?ttlInSecs=#{ttl_in_seconds}&externalUserId=#{external_user_id}&lang=#{locale}"
+      headers = build_header(resource, method: 'POST', body: body.to_json)
+
+      response = HTTP.headers(headers)
+                     .post("#{@url}/resources/#{resource}", json: body)
 
       parse_response(response)
     end
