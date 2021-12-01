@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sumsub
   class Request
     PRODUCTION_URL = "https://api.sumsub.com"
@@ -196,6 +198,7 @@ module Sumsub
         resource: resource, 
         body: body, 
         method: method,
+        secret_key: @secret_key,
       )
 
       {

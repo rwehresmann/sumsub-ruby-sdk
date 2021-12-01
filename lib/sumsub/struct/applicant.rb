@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 module Sumsub
   module Struct
     # https://developers.sumsub.com/api-reference/#request-body
     class Applicant < BaseStruct
-      include Types
-
       attribute :externalUserId, Types::Coercible::String
+
       attribute? :sourceKey, Types::String
       attribute? :email, Types::String
       attribute? :lang, Types::String

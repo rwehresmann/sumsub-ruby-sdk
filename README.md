@@ -1,6 +1,6 @@
 # SumSub Ruby SDK
 
-This gem is an unnoficial SDK for the [SumSub API](https://developers.sumsub.com/api-reference/).
+This gem is an unofficial SDK for the [SumSub API](https://developers.sumsub.com/api-reference/).
 
 ## Installation
 
@@ -16,7 +16,7 @@ And then execute:
 
 ## Configuration and Usage
 
-You can configure your credentials using `Sumsub::Configure` block. There are three keys you can inform: *token*, *secret_key* and *production*. The token and secret key you need to generate from your SumSub account, and *production* is a boolean value where you specify if you wanna use SumSub production or test environtment. To use the test environment, just set production as `false`.
+You can configure your credentials using `Sumsub::Configure` block. There are three keys you can inform: *token*, *secret_key* and *production*. The token and secret key you need to generate from your SumSub account, and *production* is a boolean value where you specify if you wanna use SumSub production or test environment. To use the test environment, just set production as `false`.
 
 ```ruby
 Sumsub.configure do |config|

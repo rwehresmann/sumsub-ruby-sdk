@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sumsub
   class Configuration
     attr_accessor :token, :secret_key, :production

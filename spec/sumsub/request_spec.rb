@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 RSpec.describe Sumsub::Request do
   let(:generic_json) { "{\"applicantId\":\"123456abc\"}" }
 

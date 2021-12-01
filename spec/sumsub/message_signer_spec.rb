@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 RSpec.describe Sumsub::MessageSigner do
   describe ".sign" do
     let(:digest) { OpenSSL::Digest.new('sha256') }

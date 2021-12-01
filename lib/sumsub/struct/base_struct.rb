@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 module Sumsub
+  include Types
+
   module Struct
     class BaseStruct < Dry::Struct
-      include Types
 
       def to_json
         attributes.to_json

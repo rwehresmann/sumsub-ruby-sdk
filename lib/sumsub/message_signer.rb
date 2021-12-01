@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sumsub
   # https://developers.sumsub.com/api-reference/#signing-a-request
   class MessageSigner

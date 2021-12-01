@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 module Sumsub
   module Struct
     # https://developers.sumsub.com/api-reference/#addresses-elements-fields
     class Address < BaseStruct
-      include Types
-
       attribute? :country, Types::String
       attribute? :postCode, Types::String
       attribute? :town, Types::String
