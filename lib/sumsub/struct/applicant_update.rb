@@ -5,7 +5,6 @@ module Sumsub
     # https://developers.sumsub.com/api-reference/#request-body-2
     class ApplicantUpdate < BaseStruct
       attribute :id, Types::String
-
       attribute? :externalUserId, Types::String
       attribute? :email, Types::String
       attribute? :phone, Types::String

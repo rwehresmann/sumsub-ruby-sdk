@@ -11,31 +11,32 @@ module Sumsub
         :ID_CARD,
         :PASSPORT,
         :DRIVERS, # Driving license
-        :BANK_CARD,
+        :RESIDENCE_PERMIT,
         :UTILITY_BILL,
-        :BANK_STATEMENT,
         :SELFIE,
         :VIDEO_SELFIE,
         :PROFILE_IMAGE,
         :ID_DOC_PHOTO,
         :AGREEMENT,
         :CONTRACT,
-        :RESIDENCE_PERMIT,
-        :EMPLOYMENT_CERTIFICATE,
         :DRIVERS_TRANSLATION,
         :INVESTOR_DOC,
         :VEHICLE_REGISTRATION_CERTIFICATE,
         :INCOME_SOURCE, # Proof of income
         :PAYMENT_METHOD,
+        :BANK_CARD,
+        :COVID_VACCINATION_FORM,
         :OTHER,
         nil,
       )
 
-    IdDocSubType = Types::Strict::Symbol
+    # https://developers.sumsub.com/api-reference/#request-metadata-body-part-fields
+    IdDocSubTypes = Types::Strict::Symbol
       .constructor(&:to_sym)
       .enum(
         :FRONT_SIDE,
         :BACK_SIDE,
+        nil,
       )
   end
 end
