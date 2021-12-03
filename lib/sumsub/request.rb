@@ -171,7 +171,7 @@ module Sumsub
 
     # API docs: https://developers.sumsub.com/api-reference/additional-methods.html#generating-websdk-external-link-for-particular-user
     # Sumsub::Struct::Applicant can be used as body.
-    def generating_external_link(level_name, ttl_in_seconds, external_user_id, locale: nil, body: nil)
+    def generate_external_link(level_name, ttl_in_seconds, external_user_id, locale: nil, body: {})
       resource = "sdkIntegrations/levels/#{level_name}/websdkLink?ttlInSecs=#{ttl_in_seconds}&externalUserId=#{external_user_id}&lang=#{locale}"
       headers = build_header(resource, method: 'POST', body: body.to_json)
 

@@ -482,7 +482,7 @@ RSpec.describe Sumsub::Request do
     end
   end
 
-  describe "#generating_external_link" do
+  describe "#generate_external_link" do
     let(:level_name) { 'basic-kyc-level' }
     let(:ttl_in_seconds) { 1800 }
     let(:external_user_id) { 'appt23' }
@@ -512,7 +512,7 @@ RSpec.describe Sumsub::Request do
         args: { json: applicant }
       )
 
-      described_class.new.generating_external_link(level_name, ttl_in_seconds, external_user_id, locale: locale, body: applicant)
+      described_class.new.generate_external_link(level_name, ttl_in_seconds, external_user_id, locale: locale, body: applicant)
     end
   end
 
