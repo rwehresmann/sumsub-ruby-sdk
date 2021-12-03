@@ -456,6 +456,36 @@ RSpec.describe Sumsub::Request do
     end
   end
 
+  describe "#testing_on_test_environment" do
+    let(:applicant_id) { '123' }
+    let(:review_result) do
+      Sumsub::Struct::ReviewResult.new(
+        reviewAnswer: 'GREEN',
+      )
+    end
+
+    it "calls the right resource with the right headers and body" do
+      resource = "applicants/#{applicant_id}/status/testCompleted"
+
+      headers = build_headers(
+        resource,
+        method: 'POST',
+        content_type: 'application/json',
+        accept: 'application/json',
+        body: review_result.to_json
+      )
+
+      set_http_client_expects(
+        headers,
+        :post,
+        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        args: { json: review_result }
+      )
+
+      described_class.new.testing_on_test_environment(applicant_id, review_result)
+    end
+  end
+
   describe "#verify_webhook_sender" do
     let(:webhook_secret_key) { 'mysecretkey' }
     let(:payload) { 'some text' }

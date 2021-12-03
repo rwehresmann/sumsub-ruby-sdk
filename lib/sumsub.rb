@@ -26,6 +26,7 @@ require 'sumsub/struct/info'
 require 'sumsub/struct/applicant'
 require 'sumsub/struct/applicant_update'
 require 'sumsub/struct/document_metadata'
+require 'sumsub/struct/review_result'
 
 module Sumsub
   class << self
