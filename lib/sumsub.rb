@@ -27,6 +27,7 @@ require 'sumsub/struct/applicant'
 require 'sumsub/struct/applicant_update'
 require 'sumsub/struct/document_metadata'
 require 'sumsub/struct/review_result'
+require 'sumsub/struct/webhook_payload'
 
 module Sumsub
   class << self
