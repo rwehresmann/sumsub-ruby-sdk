@@ -115,5 +115,23 @@ module Sumsub
         :FINAL,
         :RETRY,
       )
+
+    # https://developers.sumsub.com/api-reference/#webhook-types
+    WebhookTypes = Types::Strict::Symbol
+      .constructor(&:to_sym)
+      .enum(
+        :applicantReviewed,
+        :applicantPending,
+        :applicantCreated,
+        :applicantOnHold,
+        :applicantPersonalInfoChanged,
+        :applicantPrechecked,
+        :applicantDeleted,
+        :videoIdentStatusChanged,
+        :applicantReset,
+        :applicantActionPending,
+        :applicantActionReviewed,
+        :applicantActionOnHold,
+      )
   end
 end
