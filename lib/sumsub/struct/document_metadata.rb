@@ -5,9 +5,8 @@ module Sumsub
     # https://developers.sumsub.com/api-reference/#request-metadata-body-part-fields
     class DocumentMetadata < BaseStruct
       attribute :idDocType, Types::IdDocTypes
+      attribute? :idDocSubType, Types::IdDocSubTypes
       attribute :country, Types::String # https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-
-      attribute? :idDocSubType, Types::IdDocSubType
       attribute? :firstName, Types::String
       attribute? :middleName, Types::String
       attribute? :lastName, Types::String
