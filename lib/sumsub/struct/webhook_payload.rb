@@ -17,7 +17,7 @@ module Sumsub
       attribute? :videoIdentReviewStatus, Types::String
       attribute? :applicantActionId, Types::String
       attribute? :externalApplicantActionId, Types::String
-      attribute? :clientId, Types::String
+      attribute :clientId, Types::String
     end
   end
 end
