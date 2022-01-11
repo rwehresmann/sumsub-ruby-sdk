@@ -151,6 +151,17 @@ module Sumsub
       parse_response(response)
     end
 
+    # API docs: https://developers.sumsub.com/api-reference/#testing-on-the-test-environment
+    # Sumsub::Struct::Applicant can be used as review_result.
+    def testing_on_test_environment(applicant_id, review_result)
+      resource = "applicants/#{applicant_id}/status/testCompleted"
+      headers = build_header(resource, body: review_result.to_json)
+      response = HTTP.headers(headers)
+                     .post("#{@url}/resources/#{resource}", json: review_result)
+
+      parse_response(response)
+    end
+
     # API docs: https://developers.sumsub.com/api-reference/#verifying-webhook-sender
     # Your payload need to be informed as a string.
     def verify_webhook_sender(webhook_secret_key, payload)
