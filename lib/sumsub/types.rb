@@ -51,7 +51,9 @@ module Sumsub
     RejectLabels = Types::Strict::Symbol
       .constructor(&:to_sym)
       .enum(
-        :FORGERY,
+        :FORCED_VERIFICATION,
+        :LIVENESS_WITH_PHONE,
+        :DEEPFAKE,
         :DOCUMENT_TEMPLATE,
         :LOW_QUALITY,
         :SPAM,
