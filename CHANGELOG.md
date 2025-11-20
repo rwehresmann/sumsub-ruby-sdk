@@ -16,3 +16,7 @@
 
 ### 0.2.2
   - Update Subsub types ([PR](https://github.com/rwehresmann/sumsub-ruby-sdk/pull/10))
+
+### 0.2.3
+  - Fix WebhookSender.get_payload - fixes error when webhook request contains failed KYC verification ([PR #12](https://github.com/rwehresmann/sumsub-ruby-sdk/pull/12))
+  - Fix #verify_webhook_sender - fixes 406 HTTP error from Sumsub ([PR #11](https://github.com/rwehresmann/sumsub-ruby-sdk/pull/11))
