@@ -218,7 +218,7 @@ module Sumsub
         "X-App-Access-Ts": epoch_time.to_s.encode("UTF-8"),
         "Accept": accept,
         "Content-Type": content_type
-      }.compact!
+      }.compact
     end
 
     def parse_response(response)
